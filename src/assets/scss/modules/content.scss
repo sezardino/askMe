@@ -1,0 +1,18 @@
+.content {
+  &__wrapper {
+    margin-top: 40px;
+    display: grid;
+    row-gap: 15px;
+  }
+
+  &__list {
+    display: grid;
+    row-gap: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .content {
+    margin-left: 180px;
+  }
+}
