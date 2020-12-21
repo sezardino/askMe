@@ -1,0 +1,31 @@
+.sidebar {
+  background-color: #2196F3;
+  padding: 15px;
+
+  &__title {
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 40px;
+  }
+
+  &__author {
+    font-size: 18px;
+    color: #ffffff;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    height: 100%;
+    padding-top: 30px;
+
+    &__author {
+      font-size: 20px;
+    }
+  }
+}
