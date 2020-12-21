@@ -1,0 +1,31 @@
+{
+  "name": "askme",
+  "version": "1.0.0",
+  "description": "web app where you can ask a question for author",
+  "main": "index.js",
+  "scripts": {
+    "start": "echo \"Error: no test specified\" && exit 1",
+    "production": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sezardino/askMe.git"
+  },
+  "keywords": [
+    "web",
+    "app",
+    "questions",
+    "webpask",
+    "html",
+    "scss",
+    "js"
+  ],
+  "author": "Edward Arechwa <e.arechwa@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sezardino/askMe/issues"
+  },
+  "homepage": "https://github.com/sezardino/askMe#readme",
+}
