@@ -1,1 +1,3 @@
-console.log(2);
+import Controller from './controller';
+
+new Controller('Edward', '.app').render();
