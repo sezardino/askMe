@@ -7,6 +7,7 @@ const ERRORS = {
   EMAIL_EXISTS: 'EMAIL_EXISTS',
   MISS_EMAIL: 'MISSING_EMAIL',
   MISS_PASSWORD: 'MISSING_PASSWORD',
+  EMAIL_NOT_FOUND: 'EMAIL_NOT_FOUND',
   TO_MANY:
     'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.',
 };
@@ -50,6 +51,9 @@ const getErrorMessage = (error: any) => {
       break;
     case ERRORS.EMAIL_EXISTS:
       message = 'this email is already in use';
+      break;
+    case ERRORS.EMAIL_NOT_FOUND:
+      message = 'this email not found in base';
       break;
   }
   return message;

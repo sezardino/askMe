@@ -7,13 +7,13 @@ const headerTemplate = (user: string | null) => {
   const withUserClass = user ? '' : 'hidden';
   const withoutUserClass = user ? 'hidden' : '';
   return `
-  <header class="content__header header">
+  <div class="header__info">
     <div class="header__wrapper ${withUserClass}">
       <p class="user">${user}</p>
     </div>
     <button class="mui-btn mui-btn--primary btn-login ${withoutUserClass}">Log In</button>
     <button class="mui-btn mui-btn--primary btn-signup ${withoutUserClass}">Sign Up</button>
-  </header>`;
+  </div>`;
 };
 
 interface HeaderInt extends AbsSmartComponentInterface {

@@ -1,5 +1,4 @@
 import api from './api';
-import {Component} from './components/absComponent';
 import {
   Wrapper,
   Sidebar,
@@ -28,6 +27,8 @@ class Controller implements ControllerType {
   form: FormInt;
   header: HeaderInt;
   user: string | null;
+  wrapper: HTMLElement | null;
+  headerContainer: HTMLElement | null;
   constructor(name: string, selector: string) {
     this.name = name;
     this.container = document.querySelector(selector);
@@ -36,28 +37,22 @@ class Controller implements ControllerType {
     this.header = new Header(this.user);
   }
 
+  userCheck = (response: any) => {
+    const {displayName, email} = response;
+    if (displayName || email) {
+      this.user = displayName ? displayName : email;
+      this.header.rerender(this.user);
+      this.renderAskForm();
+    }
+    return response;
+  };
+
   logInSubmitHandler = (email: string, password: string) => {
-    return api.logIn(email, password).then((response: any) => {
-      const {displayName, email} = response;
-      if (displayName || email) {
-        this.user = displayName ? displayName : email;
-        this.header.rerender(this.user);
-      }
-      console.log(this);
-      return response;
-    });
+    return api.logIn(email, password).then(this.userCheck);
   };
 
   signUpSubmitHandler = (email: string, password: string) => {
-    return api.signUp(email, password).then((response: any) => {
-      const {displayName, email} = response;
-      if (displayName || email) {
-        this.user = displayName ? displayName : email;
-        this.header.rerender(this.user);
-      }
-      console.log(this);
-      return response;
-    });
+    return api.signUp(email, password).then(this.userCheck);
   };
 
   renderModal = (
@@ -69,8 +64,8 @@ class Controller implements ControllerType {
     modal.submitHandler(handler);
   };
 
-  renderHeader = (container: Element) => {
-    renderComponent(container, this.header, 'afterbegin');
+  renderHeader = () => {
+    renderComponent(this.headerContainer, this.header, 'beforeend');
     this.header.logInButtonHandler((title) =>
       this.renderModal(title, this.logInSubmitHandler)
     );
@@ -79,17 +74,24 @@ class Controller implements ControllerType {
     );
   };
 
+  renderAskForm = () => {
+    if (this.user) {
+      renderComponent(this.headerContainer, this.form, 'beforeend');
+    }
+  };
+
   render() {
-    renderComponent(this.container!, new Sidebar(this.name), 'beforeend');
-
     const wrapper = new Wrapper();
+    renderComponent(this.container!, new Sidebar(this.name), 'beforeend');
     renderComponent(this.container!, wrapper, 'beforeend');
-    const wrapperSection = wrapper._element!.querySelector('.content__wrapper');
-    renderComponent(wrapperSection!, this.form, 'afterbegin');
-    this.renderHeader(wrapperSection!);
-    // this.form.submitHandler(api.signIn);
 
-    renderComponent(wrapperSection!, new List(), 'beforeend');
+    this.headerContainer = wrapper._element!.querySelector('.header');
+    console.log(wrapper._element!.querySelector('.header'));
+    this.renderHeader();
+    // renderComponent(this.wrapper, this.form, 'beforeend');
+    this.renderAskForm();
+
+    // renderComponent(this.wrapper, new List(), 'beforeend');
   }
 }
 
