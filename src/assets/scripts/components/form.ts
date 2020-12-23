@@ -1,4 +1,4 @@
-import AbsComponent from './absComponent';
+import AbsComponent, {Component} from './absComponent';
 
 const formTemplate = () => {
   return `
@@ -22,10 +22,49 @@ const formTemplate = () => {
   </form>`;
 };
 
-class Form extends AbsComponent {
+interface FormInt extends Component {
+  recoveryListeners: () => void;
+  submitHandler: (handler: (email: string, password: string) => void) => void;
+}
+
+class Form extends AbsComponent implements FormInt {
+  constructor() {
+    super();
+    this.recoveryListeners();
+  }
+
   getTemplate() {
     return formTemplate();
   }
+
+  submitHandler = (handler: (email: string, password: string) => void) => {
+    this.getElement().addEventListener('submit', (evt: Event) => {
+      evt.preventDefault();
+      const target = evt.target as Element;
+      const question = target!.querySelector('input')!.value.trim();
+      const data = {
+        date: new Date(),
+        question,
+      };
+      const pass = '123456';
+      const em = 'eddd@gmail.com';
+      handler(em, pass);
+    });
+  };
+
+  recoveryListeners() {
+    // this.getElement().addEventListener('submit', (evt: Event) => {
+    //   evt.preventDefault();
+    //   const target = evt.target as Element;
+    //   const question = target!.querySelector('input')!.value.trim();
+    //   const data = {
+    //     date: new Date(),
+    //     question,
+    //   };
+    //   handler(data);
+    // });
+  }
 }
 
+export {FormInt};
 export default Form;

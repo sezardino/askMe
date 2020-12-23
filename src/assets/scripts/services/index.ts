@@ -1,3 +1,8 @@
-import {createElement, renderComponent} from './services';
+import {
+  createElement,
+  renderComponent,
+  removeComponent,
+  getErrorMessage,
+} from './services';
 
-export {createElement, renderComponent};
+export {createElement, renderComponent, removeComponent, getErrorMessage};

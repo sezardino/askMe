@@ -1,0 +1,33 @@
+
+.modal {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &__overlay {
+    background-color: rgba(#000000, 0.1);
+    width: 100%;
+    height: 100%;
+  }
+
+  &__form {
+    padding: 15px;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    min-width: 375px;
+    height: 280px;
+    border-radius: 5px;
+    box-shadow: 0 0 2px rgba(0,0,0,.12), 0 2px 2px rgba(0,0,0,.2);
+    background-color: #ffffff;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &__error {
+    border: 2px solid red;
+  }
+}
