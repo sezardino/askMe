@@ -1,6 +1,8 @@
 import Sidebar from './sidebar';
 import Wrapper from './wrapper';
-import Form from './form';
+import Form, {FormInt} from './form';
 import List from './list';
+import Header, {HeaderInt} from './header';
+import Modal from './modal';
 
-export {Sidebar, Wrapper, Form, List};
+export {Sidebar, Wrapper, Form, List, Header, FormInt, HeaderInt};

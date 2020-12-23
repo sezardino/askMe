@@ -47,6 +47,7 @@
     "write-file-webpack-plugin": "^4.5.1"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.12.1"
+    "@babel/polyfill": "^7.12.1",
+    "muicss": "^0.10.2"
   }
 }
