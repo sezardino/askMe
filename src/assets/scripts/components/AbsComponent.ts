@@ -1,10 +1,5 @@
 import {createElement} from '../services/index';
-
-type Component = {
-  getTemplate: () => string;
-  getElement: () => Element | null;
-  removeElement: () => void;
-};
+import {Component} from '../types';
 
 abstract class AbsComponent implements Component {
   _element: Element | null;

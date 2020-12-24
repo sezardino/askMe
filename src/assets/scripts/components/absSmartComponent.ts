@@ -9,7 +9,7 @@ abstract class AbsSmartComponent
   implements AbsSmartComponentInterface {
   data: any;
   abstract recoveryListeners(): void;
-  constructor(data: any) {
+  constructor(data?: any) {
     super();
     this.data = data;
   }

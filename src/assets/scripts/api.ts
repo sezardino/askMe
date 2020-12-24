@@ -1,25 +1,22 @@
+import {
+  ApiType,
+  askResponse,
+  authType,
+  errorResponse,
+  questionType,
+} from './types';
+
 const API_METHODS = {
   AUTH: 'accounts:signInWithCustomToken',
   CREATE_USER: 'accounts:signUp',
   SIGN_IN: 'accounts:signInWithPassword',
 };
 
-type ApiType = {
-  key: string;
-};
-
-type errorType = {
-  code: number;
-  errors: Array<{}>;
-  message: string;
-};
-
-class Api {
+class Api implements ApiType {
   key: string;
   constructor(key: string) {
     this.key = key;
   }
-
   fetchData = (method: string, settings: Object) => {
     return fetch(
       `https://identitytoolkit.googleapis.com/v1/${method}?key=${this.key}`,
@@ -27,12 +24,36 @@ class Api {
     );
   };
 
-  signUp = (email: string, password: string): Promise<Response | errorType> => {
+  createQuestion = (
+    question: questionType
+  ): Promise<Response | askResponse> => {
+    return fetch(
+      'https://askme-40f06-default-rtdb.europe-west1.firebasedatabase.app/questions.json',
+      {
+        method: 'POST',
+        body: JSON.stringify(question),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    ).then((response) => response.json());
+  };
+
+  getQuestions = () => {
+    return fetch(
+      'https://askme-40f06-default-rtdb.europe-west1.firebasedatabase.app/questions.json'
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        return Object.keys(response).map((id) => ({id, ...response[id]}));
+      });
+  };
+
+  signUp = (data: authType): Promise<Response | errorResponse> => {
     const settings = {
       method: 'POST',
       body: JSON.stringify({
-        email,
-        password,
+        ...data,
         returnSecureToken: true,
       }),
       headers: {
@@ -44,12 +65,11 @@ class Api {
     );
   };
 
-  logIn = (email: string, password: string): Promise<Response | errorType> => {
+  logIn = (data: authType): Promise<Response | errorResponse> => {
     const settings = {
       method: 'POST',
       body: JSON.stringify({
-        email,
-        password,
+        ...data,
         returnSecureToken: true,
       }),
       headers: {

@@ -1,9 +1,7 @@
-import {UserType} from '../controller';
-import AbsSmartComponent, {
-  AbsSmartComponentInterface,
-} from './absSmartComponent';
+import {HeaderInt} from '../types';
+import AbsSmartComponent from './absSmartComponent';
 
-const headerTemplate = (user: string | null) => {
+const headerTemplate = (user?: string | null) => {
   const withUserClass = user ? '' : 'hidden';
   const withoutUserClass = user ? 'hidden' : '';
   return `
@@ -16,16 +14,11 @@ const headerTemplate = (user: string | null) => {
   </div>`;
 };
 
-interface HeaderInt extends AbsSmartComponentInterface {
-  data: string | null;
-  logInButtonHandler: (handler: (title: string) => void) => void;
-  signUpButtonHandler: (handler: (title: string) => void) => void;
-}
-
 class Header extends AbsSmartComponent implements HeaderInt {
   data: string | null;
   _logInButtonHandler: (title: string) => void;
   _signUpButtonHandler: (title: string) => void;
+
   getTemplate() {
     return headerTemplate(this.data);
   }

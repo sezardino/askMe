@@ -3,23 +3,14 @@ import {
   Wrapper,
   Sidebar,
   Form,
-  List,
   Header,
   FormInt,
   HeaderInt,
+  Question,
 } from './components/index';
 import Modal from './components/modal';
+import {authType, ControllerType, questionType} from './types';
 import {renderComponent} from './services/index';
-
-type ControllerType = {
-  render: () => void;
-};
-
-type UserType = {
-  id: string;
-  email: string;
-  displayName: string;
-};
 
 class Controller implements ControllerType {
   name: string;
@@ -29,12 +20,12 @@ class Controller implements ControllerType {
   user: string | null;
   wrapper: HTMLElement | null;
   headerContainer: HTMLElement | null;
+  listContainer: HTMLDivElement | null;
   constructor(name: string, selector: string) {
     this.name = name;
     this.container = document.querySelector(selector);
     this.user = null;
-    this.form = new Form();
-    this.header = new Header(this.user);
+    this.header = new Header();
   }
 
   userCheck = (response: any) => {
@@ -47,18 +38,22 @@ class Controller implements ControllerType {
     return response;
   };
 
-  logInSubmitHandler = (email: string, password: string) => {
-    return api.logIn(email, password).then(this.userCheck);
+  logInSubmitHandler = (data: authType) => {
+    return api.logIn(data).then(this.userCheck);
   };
 
-  signUpSubmitHandler = (email: string, password: string) => {
-    return api.signUp(email, password).then(this.userCheck);
+  signUpSubmitHandler = (data: authType) => {
+    return api.signUp(data).then(this.userCheck);
   };
 
-  renderModal = (
-    title: string,
-    handler: (email: string, password: string) => Promise<any>
-  ) => {
+  askFormHandler = (question: questionType) => {
+    return api.createQuestion(question).then((response) => {
+      api.getQuestions().then((data) => this.renderQuestions(data));
+      return response;
+    });
+  };
+
+  renderModal = (title: string, handler: (data: authType) => Promise<any>) => {
     const modal = new Modal(title);
     renderComponent(this.container!, modal, 'beforeend');
     modal.submitHandler(handler);
@@ -76,24 +71,30 @@ class Controller implements ControllerType {
 
   renderAskForm = () => {
     if (this.user) {
-      renderComponent(this.headerContainer, this.form, 'beforeend');
+      const form = new Form(this.user);
+      renderComponent(this.headerContainer, form, 'beforeend');
+      form.submitHandler(this.askFormHandler);
     }
   };
 
-  render() {
+  renderQuestions = (data: Array<questionType>) => {
+    this.listContainer.innerHTML = '';
+    data.map((item) => {
+      renderComponent(this.listContainer, new Question(item), 'afterbegin');
+    });
+  };
+
+  render(data: Array<questionType>) {
     const wrapper = new Wrapper();
     renderComponent(this.container!, new Sidebar(this.name), 'beforeend');
     renderComponent(this.container!, wrapper, 'beforeend');
 
-    this.headerContainer = wrapper._element!.querySelector('.header');
-    console.log(wrapper._element!.querySelector('.header'));
+    this.headerContainer = document.querySelector('.content__header');
+    this.listContainer = document.querySelector('.content__list');
     this.renderHeader();
-    // renderComponent(this.wrapper, this.form, 'beforeend');
-    this.renderAskForm();
 
-    // renderComponent(this.wrapper, new List(), 'beforeend');
+    this.renderQuestions(data);
   }
 }
 
-export {UserType};
 export default Controller;

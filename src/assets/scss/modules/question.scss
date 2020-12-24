@@ -1,0 +1,27 @@
+.question {
+  display: grid;
+  row-gap: 15px;
+
+  &__header {
+    font-size: 20px;
+    line-height: 22px;
+    margin: 0;
+  }
+
+  &__info {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+
+  &__body {
+    font-size: 18px;
+    line-height: 21px;
+    margin: 0;
+  }
+}
+.mui {
+
+  &--text-headline {}
+
+  &--text-black-54 {}
+}

@@ -1,5 +1,6 @@
 import {getErrorMessage, removeComponent} from '../services/index';
 import AbsComponent from './absComponent';
+import {authType} from '../types';
 
 const modalTemplate = (title: string) => {
   return `
@@ -45,7 +46,7 @@ class Modal extends AbsComponent {
     }
   };
 
-  submitHandler = (handler: (arg0: string, arg1: string) => Promise<any>) => {
+  submitHandler = (handler: (question: authType) => Promise<any>) => {
     const button = this.getElement().querySelector('button');
     const errorMessage = this.getElement().querySelector(
       '.modal__error-message'
@@ -61,8 +62,12 @@ class Modal extends AbsComponent {
         const emailInput: HTMLInputElement = target.querySelector(
           '#email-input'
         );
+        const data = {
+          email: emailInput.value,
+          password: passwordInput.value,
+        };
         button.disabled = true;
-        handler(emailInput.value, passwordInput.value).then((response) => {
+        handler(data).then((response) => {
           if (response.error) {
             button.disabled = false;
             target.classList.add('modal__error');

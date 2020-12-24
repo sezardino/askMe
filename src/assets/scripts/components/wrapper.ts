@@ -8,6 +8,7 @@ const wrapperTemplate = () => {
     <header class="content__header header">
 
     </header>
+    <div class="content__list"></div>
     </div>
   </section>
     `;
