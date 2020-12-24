@@ -1,31 +1,24 @@
-import {UserType} from '../controller';
-import AbsSmartComponent, {
-  AbsSmartComponentInterface,
-} from './absSmartComponent';
+import {HeaderInt} from '../types';
+import AbsSmartComponent from './absSmartComponent';
 
-const headerTemplate = (user: string | null) => {
+const headerTemplate = (user?: string | null) => {
   const withUserClass = user ? '' : 'hidden';
   const withoutUserClass = user ? 'hidden' : '';
   return `
-  <header class="content__header header">
+  <div class="header__info">
     <div class="header__wrapper ${withUserClass}">
       <p class="user">${user}</p>
     </div>
     <button class="mui-btn mui-btn--primary btn-login ${withoutUserClass}">Log In</button>
     <button class="mui-btn mui-btn--primary btn-signup ${withoutUserClass}">Sign Up</button>
-  </header>`;
+  </div>`;
 };
-
-interface HeaderInt extends AbsSmartComponentInterface {
-  data: string | null;
-  logInButtonHandler: (handler: (title: string) => void) => void;
-  signUpButtonHandler: (handler: (title: string) => void) => void;
-}
 
 class Header extends AbsSmartComponent implements HeaderInt {
   data: string | null;
   _logInButtonHandler: (title: string) => void;
   _signUpButtonHandler: (title: string) => void;
+
   getTemplate() {
     return headerTemplate(this.data);
   }

@@ -1,3 +1,6 @@
 import Controller from './controller';
+import api from './api';
 
-new Controller('Edward', '.app').render();
+const controller = new Controller('Edward', '.app');
+
+api.getQuestions().then((data) => controller.render(data));

@@ -1,4 +1,6 @@
 .header {
+  display: grid;
+  row-gap: 10px;
   &__wrapper {
     display: flex;
     justify-content: space-between;
